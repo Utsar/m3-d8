@@ -77,28 +77,49 @@
       </div>
       <script>
 
-        const allProducts = document.getElementById("products-wrapper")
-        const products = document.getElementById("product-wrapper")
-        products.createElement = `            
-        <div class="card" style="width: 18rem;">
-              <img src="${product.imageUrl}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">${product.name}</h5>
-                <p class="card-text">${product.description}</p>
-                <a href="#" class="btn btn-primary">${product.price}</a>
-              </div>
-            </div>`
+        // get div to insert products to
+        const allproducts = document.getElementById("products-wrapper")
 
-
+        // set Api url and Api key
+        const productsUrl = "https://striveschool-api.herokuapp.com/api/product/"
         const apiKey = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MGFlM2MyN2NlYWY0ODAwMTVjOTE4NjciLCJpYXQiOjE2MjIwMzE4NDQsImV4cCI6MTYyMzI0MTQ0NH0.-VPFzasWIJWI58Hy9QkY7Y21AOYv9lnkxcA73Xn4ndw" 
         
-        
-        fetch("https://striveschool-api.herokuapp.com/api/product/", {
-        headers: {
-        "Authorization": apiKey
+        // create cards and insert to product wrapper
+
+
+// // set parameter for 
+        const myProduct = {
+          image: document.getElementById("image").value,
+          name: document.getElementById("name").value,
+          description: document.getElementById("description").value,
+          price: document.getElementById("price").value
         }
 
-        })
+window.onload = async () => {
+            
+            
+                const response = await fetch(productsUrl, {
+                    headers: {
+                        "Authorization": apiKey
+                    }
+                })
+                .then((response) =>response.json())
+                .then((data) =>
+                data.forEach((product) => {
+                 allproducts.innerHTML = `            
+        <div class="card" style="width: 18rem;">
+              <img id="image" src="${product.imageUrl}" class="card-img-top" alt="...">
+              <div class="card-body">
+                <h5 id="name" class="card-title">${product.name}</h5>
+                <p id="description" class="card-text">${product.description}</p>
+                <a id="price" href="#" class="btn btn-primary">${product.price}</a>
+              </div>
+            </div>`
+              allProducts.appendChild(products)
+            })
+                )         
+
+        }
       </script>
       
     <!-- Optional JavaScript -->
